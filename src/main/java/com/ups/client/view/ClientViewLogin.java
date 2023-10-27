@@ -20,6 +20,7 @@ public class ClientViewLogin extends javax.swing.JFrame {
     
     
     public ClientViewLogin() {
+        this.setResizable(false);
         initComponents();
         
     }

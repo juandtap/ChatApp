@@ -3,6 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.ups.client.view;
+import java.io.*;
+import java. net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -14,15 +18,37 @@ public class ClientViewChat extends javax.swing.JFrame {
      * Creates new form ClientViewChat
      */
     public ClientViewLogin clientViewLogin;
+ 
+    private static final String SERVER_ADDRESS = "localhost" ;
+    private static final int SERVER_PORT = 4321;
+    private Socket clientSocket;
+    private PrintWriter out;
+    private BufferedReader in;
+
+    
     
     public ClientViewChat() {
+        this.setResizable(false);
         initComponents();
+        this.connectToServer();
     }
+    
     public void aggNombre(String nombre){
         
         this.labelCliente.setText(nombre);
     }
     
+    
+ private void connectToServer(){
+     
+        try {
+            clientSocket = new Socket(SERVER_ADDRESS ,SERVER_PORT );
+        } catch (IOException ex) {
+            Logger.getLogger(ClientViewChat.class.getName()).log(Level.SEVERE, null, ex);
+        }
+     
+             
+ }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -38,6 +64,7 @@ public class ClientViewChat extends javax.swing.JFrame {
         txtAreaChat = new javax.swing.JTextArea();
         txtMensaje = new javax.swing.JTextField();
         labelCliente = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -61,6 +88,8 @@ public class ClientViewChat extends javax.swing.JFrame {
 
         labelCliente.setText("Usuario Activo");
 
+        jLabel1.setText("Conentado");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -77,16 +106,19 @@ public class ClientViewChat extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(65, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
-                .addGap(167, 167, 167)
-                .addComponent(labelCliente)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(149, 149, 149)
+                .addComponent(labelCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(7, 7, 7)
-                .addComponent(labelCliente)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -148,6 +180,7 @@ public class ClientViewChat extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEnviar;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelCliente;
     private javax.swing.JTextArea txtAreaChat;
