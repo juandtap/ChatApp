@@ -10,6 +10,9 @@ package com.ups.client.view;
  */
 public class ClientViewLogin extends javax.swing.JFrame {
 
+    public ClientViewChat clientViewChat= new ClientViewChat();
+    public ClientViewLogin clientViewLogin;
+
     
     
     
@@ -17,6 +20,8 @@ public class ClientViewLogin extends javax.swing.JFrame {
         initComponents();
         
     }
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -42,6 +47,11 @@ public class ClientViewLogin extends javax.swing.JFrame {
         });
 
         jButtonLogin.setText("Entrar");
+        jButtonLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLoginActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("ChatApp");
@@ -97,6 +107,16 @@ public class ClientViewLogin extends javax.swing.JFrame {
     private void jTextFieldUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldUsernameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldUsernameActionPerformed
+
+    private void jButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoginActionPerformed
+        // TODO add your handling code here:
+     
+        if(!clientViewChat.isVisible()){
+        this.clientViewChat.setVisible(true);
+       
+            
+        }
+    }//GEN-LAST:event_jButtonLoginActionPerformed
 
     /**
      * @param args the command line arguments
