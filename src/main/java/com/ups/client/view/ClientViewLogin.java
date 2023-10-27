@@ -23,6 +23,7 @@ public class ClientViewLogin extends javax.swing.JFrame {
         this.setResizable(false);
         initComponents();
         
+        
     }
 
     public ClientViewLogin(JTextField txtUsername) {
@@ -134,7 +135,7 @@ public class ClientViewLogin extends javax.swing.JFrame {
         // Cierra la ventana actual (la de inicio de sesión)
         dispose();
        
-            
+            clientViewChat.connectToServer();
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 

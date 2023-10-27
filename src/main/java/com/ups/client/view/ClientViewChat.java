@@ -30,26 +30,57 @@ public class ClientViewChat extends javax.swing.JFrame {
     public ClientViewChat() {
         this.setResizable(false);
         initComponents();
-        this.connectToServer();
+        
+  
+
     }
     
     public void aggNombre(String nombre){
         
         this.labelCliente.setText(nombre);
+  
     }
     
     
- private void connectToServer(){
+ public void connectToServer(){
      
-        try {
-            clientSocket = new Socket(SERVER_ADDRESS ,SERVER_PORT );
-        } catch (IOException ex) {
-            Logger.getLogger(ClientViewChat.class.getName()).log(Level.SEVERE, null, ex);
+try {
+            clientSocket = new Socket(SERVER_ADDRESS, SERVER_PORT);
+            out = new PrintWriter(clientSocket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+            while (true) {
+                String message = in.readLine();
+                if (message == null) {
+                    break;
+                }
+                chatArea.append(message + "\n");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                clientSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
      
              
  }
+ 
+ 
+ 
+ 
 
+     private void sendMessage() {
+        String message = messageField.getText();
+        if (!message.isEmpty()) {
+            out.println(message);
+            messageField.setText("");
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -59,30 +90,30 @@ public class ClientViewChat extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnEnviar = new javax.swing.JButton();
+        sendButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        txtAreaChat = new javax.swing.JTextArea();
-        txtMensaje = new javax.swing.JTextField();
+        chatArea = new javax.swing.JTextArea();
+        messageField = new javax.swing.JTextField();
         labelCliente = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btnEnviar.setText("Enviar");
-        btnEnviar.addActionListener(new java.awt.event.ActionListener() {
+        sendButton.setText("Enviar");
+        sendButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEnviarActionPerformed(evt);
+                sendButtonActionPerformed(evt);
             }
         });
 
-        txtAreaChat.setColumns(20);
-        txtAreaChat.setRows(5);
-        jScrollPane1.setViewportView(txtAreaChat);
+        chatArea.setColumns(20);
+        chatArea.setRows(5);
+        jScrollPane1.setViewportView(chatArea);
 
-        txtMensaje.setText(" ");
-        txtMensaje.addActionListener(new java.awt.event.ActionListener() {
+        messageField.setText(" ");
+        messageField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtMensajeActionPerformed(evt);
+                messageFieldActionPerformed(evt);
             }
         });
 
@@ -98,9 +129,9 @@ public class ClientViewChat extends javax.swing.JFrame {
                 .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtMensaje)
+                        .addComponent(messageField)
                         .addGap(18, 18, 18)
-                        .addComponent(btnEnviar)
+                        .addComponent(sendButton)
                         .addGap(36, 36, 36))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -122,27 +153,28 @@ public class ClientViewChat extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEnviar)
-                    .addComponent(txtMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(sendButton)
+                    .addComponent(messageField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(40, 40, 40))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
+    private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnEnviarActionPerformed
+        this.sendMessage();
+    }//GEN-LAST:event_sendButtonActionPerformed
 
-    private void txtMensajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMensajeActionPerformed
+    private void messageFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_messageFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtMensajeActionPerformed
+    }//GEN-LAST:event_messageFieldActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-       
+
         
         
         /* Set the Nimbus look and feel */
@@ -172,6 +204,7 @@ public class ClientViewChat extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new ClientViewChat().setVisible(true);
+  
             }
         });
         
@@ -179,11 +212,11 @@ public class ClientViewChat extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnEnviar;
+    private javax.swing.JTextArea chatArea;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelCliente;
-    private javax.swing.JTextArea txtAreaChat;
-    private javax.swing.JTextField txtMensaje;
+    private javax.swing.JTextField messageField;
+    private javax.swing.JButton sendButton;
     // End of variables declaration//GEN-END:variables
 }
