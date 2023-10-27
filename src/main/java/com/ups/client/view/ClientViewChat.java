@@ -13,9 +13,16 @@ public class ClientViewChat extends javax.swing.JFrame {
     /**
      * Creates new form ClientViewChat
      */
+    public ClientViewLogin clientViewLogin;
+    
     public ClientViewChat() {
         initComponents();
     }
+    public void aggNombre(String nombre){
+        
+        this.labelCliente.setText(nombre);
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -30,7 +37,7 @@ public class ClientViewChat extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtAreaChat = new javax.swing.JTextArea();
         txtMensaje = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        labelCliente = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -52,7 +59,7 @@ public class ClientViewChat extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Usuario Activo");
+        labelCliente.setText("Usuario Activo");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -71,14 +78,14 @@ public class ClientViewChat extends javax.swing.JFrame {
                         .addContainerGap(65, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(167, 167, 167)
-                .addComponent(jLabel1)
+                .addComponent(labelCliente)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(7, 7, 7)
-                .addComponent(jLabel1)
+                .addComponent(labelCliente)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
@@ -103,6 +110,9 @@ public class ClientViewChat extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+       
+        
+        
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -132,12 +142,14 @@ public class ClientViewChat extends javax.swing.JFrame {
                 new ClientViewChat().setVisible(true);
             }
         });
+        
+       
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEnviar;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel labelCliente;
     private javax.swing.JTextArea txtAreaChat;
     private javax.swing.JTextField txtMensaje;
     // End of variables declaration//GEN-END:variables
