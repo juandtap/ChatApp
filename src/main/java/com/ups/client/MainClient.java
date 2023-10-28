@@ -4,7 +4,7 @@
  */
 package com.ups.client;
 
-import com.ups.client.view.ClientViewLogin;
+import com.ups.client.view.ClientLogin;
 
 /**
  *
@@ -12,7 +12,7 @@ import com.ups.client.view.ClientViewLogin;
  */
 public class MainClient {
     public static void main(String[] args) {
-        var clientView = new ClientViewLogin();
+        var clientView = new ClientLogin();
         clientView.setVisible(true);
     }
 }

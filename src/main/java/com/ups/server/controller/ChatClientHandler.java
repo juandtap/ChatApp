@@ -10,11 +10,12 @@ public class ChatClientHandler implements Runnable{
 
     private Socket clientSocket;
     private ServerController server;
-    private PrintWriter out;
+    private PrintWriter pout;
 
-    public ChatClientHandler(Socket clientSocket, ServerController server){
+    public ChatClientHandler(Socket clientSocket, ServerController server, PrintWriter pout){
         this.clientSocket = clientSocket;
         this.server = server;
+        this.pout = pout;
     }
 
     public  void  sendMessage(String message){
@@ -24,7 +25,7 @@ public class ChatClientHandler implements Runnable{
     @Override
     public void run() {
         try {
-            out = new PrintWriter(clientSocket.getOutputStream(),true);
+            pout = new PrintWriter(clientSocket.getOutputStream(),true);
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             String message;
             while ((message = in.readLine())!= null){

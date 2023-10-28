@@ -10,27 +10,15 @@ import javax.swing.JTextField;
  *
  * @author juand
  */
-public class ClientViewLogin extends javax.swing.JFrame {
-
-    public ClientViewChat clientViewChat= new ClientViewChat();
-    public String nombre;
-    
+public class ClientLogin extends javax.swing.JFrame {
 
     
     
-    
-    public ClientViewLogin() {
+
+    public ClientLogin() {
         this.setResizable(false);
         initComponents();
-        
-        
     }
-
-    public ClientViewLogin(JTextField txtUsername) {
-        this.txtUsername = txtUsername;
-        this.nombre=txtUsername.getName();
-    }
-    
 
 
 
@@ -76,24 +64,24 @@ public class ClientViewLogin extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(186, 186, 186))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(108, 108, 108)
+                        .addGap(167, 167, 167)
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(142, 142, 142)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(160, 160, 160)
+                        .addComponent(btnLogin))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(107, 107, 107)
                         .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(133, 133, 133)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(154, 154, 154)
-                        .addComponent(btnLogin)))
-                .addContainerGap(109, Short.MAX_VALUE))
+                        .addGap(134, 134, 134)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(110, 110, 110))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,24 +107,13 @@ public class ClientViewLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUsernameActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        // TODO add your handling code here:
-     
-        if(!clientViewChat.isVisible()){
-            
-        // Obtén el nombre de usuario del campo de texto txtUsername
-        String nombreUsuario = txtUsername.getText();
-
-        // Abre la ventana de chat
-        clientViewChat.setVisible(true);
-
-        // Pasa el nombre de usuario a la ventana de chat
-        clientViewChat.aggNombre(nombreUsuario);
-
-        // Cierra la ventana actual (la de inicio de sesión)
-        dispose();
        
-            clientViewChat.connectToServer();
-        }
+        
+        var threadChat = new ClientChatThread(this.txtUsername.getText());
+        
+        //dispose();
+        
+        threadChat.start();
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
@@ -147,7 +124,7 @@ public class ClientViewLogin extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ClientViewLogin().setVisible(true);
+                new ClientLogin().setVisible(true);
             }
         });
     }

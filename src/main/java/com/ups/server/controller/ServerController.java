@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ServerController {
     private final int PORT = 4321;
-    private final int MAX_CONN = 5;
+    
     private ServerSocket serverSocket = null;
     private Socket clientsSocket = null;
     private List<PrintWriter> clientWriters = new ArrayList<>();
@@ -23,7 +23,10 @@ public class ServerController {
                 System.out.println("Esperando clientes");
                 clientsSocket = serverSocket.accept();
                 System.out.println("Nuevo cliente connectado ");
-
+                PrintWriter pout = new PrintWriter(clientsSocket.getOutputStream(), true);
+                clientWriters.add(pout);
+                
+                new Thread(new ChatClientHandler(clientsSocket,this,pout)).start();
 
             }
         } catch (IOException e){

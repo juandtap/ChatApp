@@ -12,41 +12,40 @@ import java.util.logging.Logger;
  *
  * @author ESTUDIANTE
  */
-public class ClientViewChat extends javax.swing.JFrame {
+public class ClientChat extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ClientViewChat
-     */
-    public ClientViewLogin clientViewLogin;
+    
  
     private static final String SERVER_ADDRESS = "localhost" ;
     private static final int SERVER_PORT = 4321;
     private Socket clientSocket;
-    private PrintWriter out;
+    private PrintWriter pout;
     private BufferedReader in;
 
     
     
-    public ClientViewChat() {
+    public ClientChat(String username) {
         this.setResizable(false);
         initComponents();
-        
+        this.labelCliente.setText(username);
+        System.out.println("se ejecuta metodo de conexion");
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException ex) {
+            System.out.println("error en delay: "+ex.getMessage());
+        }
+        this.connectToServer();
+    }
+    
   
+    
+    
+    public void connectToServer() {
 
-    }
-    
-    public void aggNombre(String nombre){
-        
-        this.labelCliente.setText(nombre);
-  
-    }
-    
-    
- public void connectToServer(){
-     
-try {
+        try {
+
             clientSocket = new Socket(SERVER_ADDRESS, SERVER_PORT);
-            out = new PrintWriter(clientSocket.getOutputStream(), true);
+            pout = new PrintWriter(clientSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
             while (true) {
@@ -66,18 +65,14 @@ try {
                 e.printStackTrace();
             }
         }
-     
-             
- }
- 
- 
- 
+
+    }
  
 
-     private void sendMessage() {
+    private void sendMessage() {
         String message = messageField.getText();
         if (!message.isEmpty()) {
-            out.println(message);
+            System.out.println(message);
             messageField.setText("");
         }
     }
@@ -190,20 +185,21 @@ try {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ClientViewChat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClientChat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ClientViewChat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClientChat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ClientViewChat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClientChat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ClientViewChat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClientChat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ClientViewChat().setVisible(true);
+                //new ClientChat().setVisible(true);
   
             }
         });
