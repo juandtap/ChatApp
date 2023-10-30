@@ -22,8 +22,8 @@ public class ClientChat extends javax.swing.JFrame {
     private PrintWriter pout;
     private BufferedReader in;
 
-    
-    
+
+
     public ClientChat(String username) {
         this.setResizable(false);
         initComponents();

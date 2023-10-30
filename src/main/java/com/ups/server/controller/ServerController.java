@@ -25,6 +25,9 @@ public class ServerController {
                 System.out.println("Nuevo cliente connectado ");
                 PrintWriter pout = new PrintWriter(clientsSocket.getOutputStream(), true);
                 clientWriters.add(pout);
+                broadcastMessage("Bienvenido : " +clientWriters.get(clientWriters.size()-1).toString() );
+                
+                System.out.println("Bienvenido : " +clientWriters.get(clientWriters.size()-1).toString());
                 
                 new Thread(new ChatClientHandler(clientsSocket,this,pout)).start();
 

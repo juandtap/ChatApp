@@ -11,10 +11,9 @@ import javax.swing.JTextField;
  * @author juand
  */
 public class ClientLogin extends javax.swing.JFrame {
-
-    
     
 
+    
     public ClientLogin() {
         this.setResizable(false);
         initComponents();
@@ -136,7 +135,7 @@ public class ClientLogin extends javax.swing.JFrame {
         
         threadChat.start();
 
-
+            
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
