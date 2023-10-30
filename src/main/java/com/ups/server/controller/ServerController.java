@@ -42,7 +42,7 @@ public class ServerController extends Thread{
                 this.chatArea.append("Nuevo Cliente connectado\n");
                 PrintWriter pout = new PrintWriter(clientsSocket.getOutputStream(), true);
                 clientWriters.add(pout);
-                broadcastMessage("Bienvenido : " +clientWriters.get(clientWriters.size()-1).toString() );
+                //broadcastMessage("Bienvenido : " +clientWriters.get(clientWriters.size()-1).toString() );
                 
                 System.out.println("Bienvenido : " +clientWriters.get(clientWriters.size()-1).toString()+"\n");
                
