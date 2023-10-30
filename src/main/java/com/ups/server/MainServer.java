@@ -5,14 +5,16 @@
 package com.ups.server;
 
 import com.ups.server.controller.ServerController;
+import com.ups.server.view.ServerChat;
+import java.io.IOException;
 
 /**
  *
  * @author juand
  */
 public class MainServer {
-    public static void main(String[] args) {
-        var chatServer = new ServerController();
-        chatServer.startServer();
+    public static void main(String[] args) throws IOException {
+        var chatServer = new ServerChat();
+        chatServer.setVisible(true);
     }
 }

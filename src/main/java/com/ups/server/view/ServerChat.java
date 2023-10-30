@@ -4,6 +4,9 @@
  */
 package com.ups.server.view;
 
+import com.ups.server.controller.ChatClientHandler;
+import com.ups.server.controller.ServerController;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -17,16 +20,17 @@ import java.util.List;
 public class ServerChat extends javax.swing.JFrame {
 
     
-    private final int PORT = 4321;
-    
-    private ServerSocket serverSocket = null;
-    private Socket clientsSocket = null;
-    private List<PrintWriter> clientWriters = new ArrayList<>();
+   
     
     
-    public ServerChat() {
+    public ServerChat() throws IOException{
         initComponents();
+        
+        var threadServer = new ServerController(jTextArea1, jList1);
+        threadServer.start();
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -52,7 +56,9 @@ public class ServerChat extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(800, 400));
         setResizable(false);
 
+        jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
@@ -134,7 +140,7 @@ public class ServerChat extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ServerChat().setVisible(true);
+                //new ServerChat().setVisible(true);
             }
         });
     }
