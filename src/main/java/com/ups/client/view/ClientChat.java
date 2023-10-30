@@ -3,10 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.ups.client.view;
-import java.io.*;
-import java. net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.ups.client.controller.ClientConnectThread;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
+
 
 /**
  *
@@ -14,65 +15,48 @@ import java.util.logging.Logger;
  */
 public class ClientChat extends javax.swing.JFrame {
 
-    
- 
     private static final String SERVER_ADDRESS = "localhost" ;
     private static final int SERVER_PORT = 4321;
-    private Socket clientSocket;
     private PrintWriter pout;
-    private BufferedReader in;
-
-
-
-    public ClientChat(String username) {
+    private String username;
+     
+ 
+    public ClientChat(String username) throws IOException {
+        this.username = username;
         this.setResizable(false);
         initComponents();
-        this.labelCliente.setText(username);
-        System.out.println("se ejecuta metodo de conexion");
-        try {
-            Thread.sleep(300);
-        } catch (InterruptedException ex) {
-            System.out.println("error en delay: "+ex.getMessage());
-        }
+        
+        this.labelCliente.setText(this.username);
+
         this.connectToServer();
     }
+
     
-  
     
     
-    public void connectToServer() {
-
-        try {
-
-            clientSocket = new Socket(SERVER_ADDRESS, SERVER_PORT);
-            pout = new PrintWriter(clientSocket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-
-            while (true) {
-                String message = in.readLine();
-                if (message == null) {
-                    break;
-                }
-                chatArea.append(message + "\n");
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                clientSocket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
+    private void connectToServer() throws IOException{
+        Socket clientSocket = new Socket(SERVER_ADDRESS, SERVER_PORT);
+        
+        pout = new PrintWriter(clientSocket.getOutputStream(), true);
+        var threadConnection = new ClientConnectThread(clientSocket, chatArea);
+        threadConnection.start();
     }
+   
+    
  
 
     private void sendMessage() {
         String message = messageField.getText();
         if (!message.isEmpty()) {
-            System.out.println(message);
+            
+            message = this.username+" : "+message;
+            
+            if (pout != null) {
+                pout.println(message); // Envía el mensaje al servidor
+                System.out.println("mensaje : <"+message+"> Enviado");
+            } else {
+                System.out.println("No se ha perdido la conexión al servidor.");
+            }
             messageField.setText("");
         }
     }

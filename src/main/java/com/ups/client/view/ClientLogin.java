@@ -4,7 +4,15 @@
  */
 package com.ups.client.view;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTextField;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -12,7 +20,7 @@ import javax.swing.JTextField;
  */
 public class ClientLogin extends javax.swing.JFrame {
     
-
+    
     
     public ClientLogin() {
         this.setResizable(false);
@@ -131,9 +139,16 @@ public class ClientLogin extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
        
         String username = this.txtUsername.getText();
-        var threadChat = new ClientChatThread("Hola " + username+" Bienvenido");
         
-        threadChat.start();
+        try {
+            ClientChat clientChat = new ClientChat(username);
+            clientChat.setVisible(true);
+            this.dispose();
+        } catch (IOException ex) {
+            System.out.println("Error al iniciar sesion");
+        }
+        
+        
 
             
     }//GEN-LAST:event_btnLoginActionPerformed
