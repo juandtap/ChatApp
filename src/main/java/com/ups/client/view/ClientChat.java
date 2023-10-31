@@ -5,10 +5,14 @@
 package com.ups.client.view;
 import com.ups.cifradoAES.CifradoAES;
 import com.ups.client.controller.ClientConnectThread;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Base64;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -91,7 +95,7 @@ public class ClientChat extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(51, 153, 255));
 
         jLabel1.setFont(new java.awt.Font("Rockwell", 1, 12)); // NOI18N
-        jLabel1.setText("Conentado");
+        jLabel1.setText("Conectado");
 
         labelCliente.setFont(new java.awt.Font("Rockwell", 1, 18)); // NOI18N
         labelCliente.setText("Usuario Activo");
@@ -105,11 +109,7 @@ public class ClientChat extends javax.swing.JFrame {
         sendButton.setText("Enviar");
         sendButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                try {
-                    sendButtonActionPerformed(evt);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
+                sendButtonActionPerformed(evt);
             }
         });
 
@@ -117,6 +117,11 @@ public class ClientChat extends javax.swing.JFrame {
         messageField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 messageFieldActionPerformed(evt);
+            }
+        });
+        messageField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                messageFieldKeyPressed(evt);
             }
         });
 
@@ -180,6 +185,25 @@ public class ClientChat extends javax.swing.JFrame {
     private void messageFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_messageFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_messageFieldActionPerformed
+
+    private void messageFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_messageFieldKeyPressed
+        // TODO add your handling code here:
+                
+ if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (messageField.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Error al iniciar sesión: El nombre de usuario está en blanco", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            try {
+                sendButtonActionPerformed(null); // Llama al método btnLoginActionPerformed
+            } catch (Exception ex) {
+                Logger.getLogger(ClientChat.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+        
+        
+        
+    }//GEN-LAST:event_messageFieldKeyPressed
 
     /**
      * @param args the command line arguments

@@ -94,7 +94,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Rockwell" size="12" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Conentado"/>
+            <Property name="text" type="java.lang.String" value="Conectado"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="labelCliente">
@@ -138,6 +138,7 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="messageFieldActionPerformed"/>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="messageFieldKeyPressed"/>
           </Events>
         </Component>
       </SubComponents>
