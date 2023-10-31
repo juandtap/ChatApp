@@ -24,12 +24,10 @@ public class CifradoAES {
             
             
             
-            
-            
             //Se genera un calve AES y la gurda en un archivo
             
             // Genera una clave AES
-           /* SecretKey secretKey = generateAESKey();
+            /* SecretKey secretKey = generateAESKey();
             // Convierte la clave en un formato adecuado para el almacenamiento, por ejemplo, en bytes
             byte[] keyBytes = secretKey.getEncoded();
 
@@ -39,6 +37,8 @@ public class CifradoAES {
             }
             */
 
+            
+            
            /* // Mensaje que deseas cifrar
             String mensajeOriginal = "Paul Andres Astudillo Calle.";
 
@@ -57,11 +57,11 @@ public class CifradoAES {
     }
 
     // Genera una clave AES Ya no se usa
-    public static SecretKey generateAESKey() throws Exception {
-        KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-        keyGenerator.init(128); //Usamos 128 bits para cifrar 
-        return keyGenerator.generateKey();
-    }
+//    public static SecretKey generateAESKey() throws Exception {
+//        KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
+//        keyGenerator.init(128); //Usamos 128 bits para cifrar 
+//        return keyGenerator.generateKey();
+//    }
 
     // Cifra un mensaje usando una clave AES
     public static byte[] encrypt(String mensaje, SecretKey secretKey) throws Exception {
