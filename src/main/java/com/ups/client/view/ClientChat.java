@@ -191,7 +191,7 @@ public class ClientChat extends javax.swing.JFrame {
                 
  if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
         if (messageField.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Error al iniciar sesión: El nombre de usuario está en blanco", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Mensaje en Blanco", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
             try {
                 sendButtonActionPerformed(null); // Llama al método btnLoginActionPerformed
