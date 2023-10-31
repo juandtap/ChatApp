@@ -44,7 +44,7 @@ public class ClientChat extends javax.swing.JFrame {
         Socket clientSocket = new Socket(SERVER_ADDRESS, SERVER_PORT);
         
         pout = new PrintWriter(clientSocket.getOutputStream(), true);
-        var threadConnection = new ClientConnectThread(clientSocket, chatArea);
+        var threadConnection = new ClientConnectThread(clientSocket, chatArea, labelStatus);
         threadConnection.start();
     }
    
@@ -109,7 +109,11 @@ public class ClientChat extends javax.swing.JFrame {
         sendButton.setText("Enviar");
         sendButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sendButtonActionPerformed(evt);
+                try {
+                    sendButtonActionPerformed(evt);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
