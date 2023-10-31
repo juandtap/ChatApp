@@ -38,16 +38,6 @@ public class CifradoAES {
                 fos.write(keyBytes);
             }
             */
-           String Path=DataManager.getDataPath();
-            System.out.println(Path);
-            
-            
-            
-            
-            
-            
-            
-            
 
            /* // Mensaje que deseas cifrar
             String mensajeOriginal = "Paul Andres Astudillo Calle.";
@@ -66,7 +56,7 @@ public class CifradoAES {
         }
     }
 
-    // Genera una clave AES
+    // Genera una clave AES Ya no se usa
     public static SecretKey generateAESKey() throws Exception {
         KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
         keyGenerator.init(128); //Usamos 128 bits para cifrar 
@@ -94,7 +84,7 @@ public class CifradoAES {
         //Utilizamos un objeto Cipher configurado en modo de cifrado (DECRYPT_MODE)
     }
     
-    private  SecretKey getSecretKey() throws FileNotFoundException, IOException{
+    public  static SecretKey getSecretKey() throws FileNotFoundException, IOException{
                 // Lee los bytes de la clave desde el archivo
         byte[] keyBytes;
         try (FileInputStream fis = new FileInputStream(DataManager.getDataPath()+"clave_aes.key")) {
@@ -102,8 +92,7 @@ public class CifradoAES {
         }
 
         // Reconstruye la clave a partir de los bytes leídos
-        SecretKey secretKey = new SecretKeySpec(keyBytes, "AES");
-        return secretKey;
+        return new SecretKeySpec(keyBytes, "AES");
     } 
 }
 

@@ -29,7 +29,7 @@ public class DataManager {
     }
     
     public static String getDataPath(){
-        dataPath = getProjectPath() + "/src/main/java/com/ups/cifradoAES";
+        dataPath = getProjectPath() + "/src/main/java/com/ups/cifradoAES/";
         //dataPath = getProjectPath() + "\\src\\main\\java\\ups\\ejercicio_04_02\\Files\\";
 
         return  dataPath;

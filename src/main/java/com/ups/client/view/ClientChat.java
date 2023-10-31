@@ -3,10 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.ups.client.view;
+import com.ups.cifradoAES.CifradoAES;
 import com.ups.client.controller.ClientConnectThread;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Base64;
 
 
 /**
@@ -45,15 +47,22 @@ public class ClientChat extends javax.swing.JFrame {
     
  
 
-    private void sendMessage() {
+    private void sendMessage()  {
         String message = messageField.getText();
         if (!message.isEmpty()) {
             
             message = this.username+" : "+message;
             
             if (pout != null) {
-                pout.println(message); // Envía el mensaje al servidor
-                System.out.println("mensaje : <"+message+"> Enviado");
+                // Envía el mensaje Cifrado al servidor
+                try {
+                    byte[] mensajeCifrado = CifradoAES.encrypt(message,CifradoAES.getSecretKey());
+                    pout.println(Base64.getEncoder().encodeToString(mensajeCifrado));
+                    System.out.println("mensaje : <"+message+"> Enviado");
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
             } else {
                 System.out.println("No se ha perdido la conexión al servidor.");
             }
@@ -96,7 +105,11 @@ public class ClientChat extends javax.swing.JFrame {
         sendButton.setText("Enviar");
         sendButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sendButtonActionPerformed(evt);
+                try {
+                    sendButtonActionPerformed(evt);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -159,7 +172,7 @@ public class ClientChat extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
+    private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) throws Exception {//GEN-FIRST:event_sendButtonActionPerformed
         // TODO add your handling code here:
         this.sendMessage();
     }//GEN-LAST:event_sendButtonActionPerformed
