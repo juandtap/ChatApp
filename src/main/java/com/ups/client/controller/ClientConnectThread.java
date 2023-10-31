@@ -31,6 +31,9 @@ public class ClientConnectThread extends Thread{
    
     private BufferedReader in;
 
+    private final int NUMMAXRECONNECT = 5;
+    private int numIntento = 0;
+
     public ClientConnectThread(Socket socket, JTextArea chatArea, JLabel labelConnStatus) {
         this.clientSocket = socket;
         this.chatArea = chatArea;
@@ -41,7 +44,18 @@ public class ClientConnectThread extends Thread{
     
     @Override
     public void run() {
-       this.connectToServer();
+        for (int i = 0; i < NUMMAXRECONNECT; i++) {
+            System.out.println("Conexion establecida numero: "+(i+1));
+            this.connectToServer();
+            // espera 5 segundos antes de reintentar
+            System.out.println("Espera 5 segundos antes de reintentar nuevamente");
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
     }
     
 
@@ -56,6 +70,7 @@ public class ClientConnectThread extends Thread{
             while (true) {
 
               System.out.println("estado del socket: "+this.clientSocket.isConnected());
+              numIntento = 0;
               String mensajeRecibidoCifrado = in.readLine();
               // decicfrar el mensaje
                     String mensajeDecifrado = CifradoAES.decrypt(Base64.getDecoder().decode(mensajeRecibidoCifrado),CifradoAES.getSecretKey());
@@ -72,8 +87,8 @@ public class ClientConnectThread extends Thread{
             System.out.println("Error en conexion al servidor: "+e.getMessage());
             System.out.println("Conexion perdida");
             this.labelConnStatus.setText("Desconectado");
-            this.chatArea.append("Conexión perdida... Reintentando Conexión");
-
+            this.chatArea.append("Conexión perdida...\n");
+            this.chatArea.append("Reintentando Conexión, intento: "+(numIntento++)+"\n");
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
