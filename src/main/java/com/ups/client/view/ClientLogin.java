@@ -154,7 +154,7 @@ public class ClientLogin extends javax.swing.JFrame {
             this.dispose();
         } catch (IOException ex) {
             System.out.println("Error al iniciar sesion");
-            JOptionPane.showMessageDialog(this, "Error al iniciar sesión: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error al iniciar sesión: Servidor no encontrado.\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 
         }
         

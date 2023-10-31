@@ -109,7 +109,11 @@ public class ClientChat extends javax.swing.JFrame {
         sendButton.setText("Enviar");
         sendButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sendButtonActionPerformed(evt);
+                try {
+                    sendButtonActionPerformed(evt);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
