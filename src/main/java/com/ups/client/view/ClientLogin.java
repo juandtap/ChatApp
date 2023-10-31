@@ -4,6 +4,7 @@
  */
 package com.ups.client.view;
 
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,6 +14,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -52,6 +54,11 @@ public class ClientLogin extends javax.swing.JFrame {
         txtUsername.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtUsernameActionPerformed(evt);
+            }
+        });
+        txtUsername.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtUsernameKeyPressed(evt);
             }
         });
 
@@ -147,12 +154,26 @@ public class ClientLogin extends javax.swing.JFrame {
             this.dispose();
         } catch (IOException ex) {
             System.out.println("Error al iniciar sesion");
+            JOptionPane.showMessageDialog(this, "Error al iniciar sesión: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
         }
         
         
-
-            
     }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void txtUsernameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsernameKeyPressed
+        // TODO add your handling code here:
+        
+ if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (txtUsername.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Error al iniciar sesión: El nombre de usuario está en blanco", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            btnLoginActionPerformed(null); // Llama al método btnLoginActionPerformed
+        }
+    }
+        
+        
+    }//GEN-LAST:event_txtUsernameKeyPressed
 
     /**
      * @param args the command line arguments
