@@ -17,11 +17,11 @@ public class ServerController extends Thread{
     private Socket clientsSocket = null;
     private List<PrintWriter> clientWriters = new ArrayList<>();
     private JTextArea chatArea;
-    private JList userList;
+    //private JList userList;
 
-    public ServerController(JTextArea chatArea, JList userList) {
+    public ServerController(JTextArea chatArea) {
         this.chatArea = chatArea;
-        this.userList = userList;
+        //this.userList = userList;
     }
 
     @Override
