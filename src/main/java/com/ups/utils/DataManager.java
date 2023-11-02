@@ -6,10 +6,6 @@ package com.ups.utils;
 
 import java.io.File;
 
-/**
- *
- * @author paul-astudillo
- */
 public class DataManager {
     
     /*
@@ -30,8 +26,6 @@ public class DataManager {
     
     public static String getDataPath(){
         dataPath = getProjectPath() + "/src/main/java/com/ups/cifradoAES/";
-        //dataPath = getProjectPath() + "\\src\\main\\java\\ups\\ejercicio_04_02\\Files\\";
-
         return  dataPath;
     }
     

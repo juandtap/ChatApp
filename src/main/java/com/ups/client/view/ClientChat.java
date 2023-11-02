@@ -44,7 +44,8 @@ public class ClientChat extends javax.swing.JFrame {
         Socket clientSocket = new Socket(SERVER_ADDRESS, SERVER_PORT);
         
         pout = new PrintWriter(clientSocket.getOutputStream(), true);
-        var threadConnection = new ClientConnectThread(clientSocket, chatArea, labelStatus);
+        // se envia las variables SERVER_ADDRESS y SERVER_PORT al thread para la reconexion;
+        var threadConnection = new ClientConnectThread(clientSocket, chatArea, labelStatus, SERVER_ADDRESS, SERVER_PORT,pout);
         threadConnection.start();
     }
    

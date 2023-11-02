@@ -38,8 +38,8 @@ public class ServerController extends Thread{
                 System.out.println("Esperando clientes");
                 this.chatArea.append("Esperando Clientes...\n");
                 clientsSocket = serverSocket.accept();
-                System.out.println("Nuevo cliente connectado ");
-                this.chatArea.append("Nuevo Cliente connectado\n");
+                System.out.println("Nuevo cliente conectado ");
+                this.chatArea.append("Nuevo Cliente conectado\n");
                 PrintWriter pout = new PrintWriter(clientsSocket.getOutputStream(), true);
                 clientWriters.add(pout);
                 //broadcastMessage("Bienvenido : " +clientWriters.get(clientWriters.size()-1).toString() );
