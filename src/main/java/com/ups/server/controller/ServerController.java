@@ -15,7 +15,7 @@ public class ServerController extends Thread{
     
     private ServerSocket serverSocket = null;
     private Socket clientsSocket = null;
-    private List<PrintWriter> clientWriters = new ArrayList<>();
+
     private JTextArea chatArea;
     //private JList userList;
 
@@ -40,13 +40,9 @@ public class ServerController extends Thread{
                 clientsSocket = serverSocket.accept();
                 System.out.println("Nuevo cliente conectado ");
                 this.chatArea.append("Nuevo Cliente conectado\n");
-                PrintWriter pout = new PrintWriter(clientsSocket.getOutputStream(), true);
-                clientWriters.add(pout);
-                //broadcastMessage("Bienvenido : " +clientWriters.get(clientWriters.size()-1).toString() );
-                
-                System.out.println("Bienvenido : " +clientWriters.get(clientWriters.size()-1).toString()+"\n");
-               
-                new Thread(new ChatClientHandler(clientsSocket,this,pout)).start();
+               //PrintWriter pout = new PrintWriter(clientsSocket.getOutputStream(), true);
+
+                new Thread(new ChatClientHandler(clientsSocket)).start();
 
             }
         } catch (IOException e){
@@ -54,13 +50,14 @@ public class ServerController extends Thread{
         }
     }
 
-    public void broadcastMessage(String message) {
-        this.chatArea.append(message+"\n");
-        for (PrintWriter writer : clientWriters) {
-            writer.println(message);
-           
-                
-        }
-    }
+//    public void broadcastMessage(String message) {
+//        this.chatArea.append(message+"\n");
+//        for (PrintWriter writer : clientWriters) {
+//            writer.println(message);
+//
+//
+//        }
+//    }
+
 
 }

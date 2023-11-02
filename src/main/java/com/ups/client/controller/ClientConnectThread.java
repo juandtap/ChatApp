@@ -97,6 +97,7 @@ public class ClientConnectThread extends Thread{
                 this.pout = new PrintWriter(this.clientSocket.getOutputStream(), true);
                 isConnectedFlag = true;
                 System.out.println("Conexion restablecida!");
+                System.out.println("nuevo objeto writer: "+this.pout.toString());
                 this.chatArea.append("Conexion restablecida!\n");
                 this.labelConnStatus.setText("Conectado");
             }
