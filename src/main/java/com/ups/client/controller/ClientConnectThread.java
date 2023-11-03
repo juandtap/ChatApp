@@ -36,17 +36,17 @@ public class ClientConnectThread extends Thread{
 
     private  String serverAddress;
     private int serverPort;
-    private PrintWriter pout;
+
 
     private boolean isConnectedFlag = true;
 
-    public ClientConnectThread(Socket socket, JTextArea chatArea, JLabel labelConnStatus, String serverAddress, int serverPort, PrintWriter pout) {
+    public ClientConnectThread(Socket socket, JTextArea chatArea, JLabel labelConnStatus, String serverAddress, int serverPort) {
         this.clientSocket = socket;
         this.chatArea = chatArea;
         this.labelConnStatus = labelConnStatus;
         this.serverAddress = serverAddress;
         this.serverPort = serverPort;
-        this.pout = pout;
+
     }
     
     
@@ -76,7 +76,7 @@ public class ClientConnectThread extends Thread{
         System.out.println("Conexion terminada\n"+"cerrando socket...");
         try {
             this.clientSocket.close();
-            System.out.println("socket cerrado");
+            System.out.println("SOCKET CERRADO");
 
         } catch (IOException e) {
             System.out.println("ERROR CERRANDO SOCKET: "+e.getMessage());
@@ -88,35 +88,34 @@ public class ClientConnectThread extends Thread{
      public void connectToServer() {
 
         try {
-            
-
             if (!isConnectedFlag){
                 // se vuelve a instanciar el socket
                 this.clientSocket = new Socket(serverAddress, serverPort);
                 // se vuelve a instaciar el PrintWriter, para que puede volver a enviar los mensajes
-                this.pout = new PrintWriter(this.clientSocket.getOutputStream(), true);
+
                 isConnectedFlag = true;
                 System.out.println("Conexion restablecida!");
-                System.out.println("nuevo objeto writer: "+this.pout.toString());
+
                 this.chatArea.append("Conexion restablecida!\n");
                 this.labelConnStatus.setText("Conectado");
+                System.out.println("INFO Socket Restablecido: "+this.clientSocket.toString());
             }
 
-            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-           
+            in = new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
+
 
             while (true) {
 
-              System.out.println("estado del socket: "+this.clientSocket.isConnected());
+                System.out.println("estado del socket: " + this.clientSocket.isConnected());
 
-              String mensajeRecibidoCifrado = in.readLine();
-              // decicfrar el mensaje
-                    String mensajeDecifrado = CifradoAES.decrypt(Base64.getDecoder().decode(mensajeRecibidoCifrado),CifradoAES.getSecretKey());
-                    if (mensajeRecibidoCifrado == null) {
-                        break;
-                    }
-                    System.out.println("mensage decifrado "+mensajeDecifrado);
-                    chatArea.append(mensajeDecifrado + "\n");
+                String mensajeRecibidoCifrado = in.readLine();
+                // descifrar el mensaje
+                String mensajeDecifrado = CifradoAES.decrypt(Base64.getDecoder().decode(mensajeRecibidoCifrado), CifradoAES.getSecretKey());
+                if (mensajeRecibidoCifrado == null) {
+                    break;
+                }
+                System.out.println("mensage decifrado " + mensajeDecifrado);
+                chatArea.append(mensajeDecifrado + "\n");
 
 
             }
@@ -129,7 +128,7 @@ public class ClientConnectThread extends Thread{
             this.labelConnStatus.setText("Desconectado");
             this.chatArea.append("Conexión perdida...\n");
 
-            System.out.println("intento nmero "+(numIntento++));
+            System.out.println("intento numero "+(numIntento++));
             this.chatArea.append("Reintentando Conexión, intento: "+(numIntento)+"\n");
         } catch (Exception e) {
             throw new RuntimeException(e);

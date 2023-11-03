@@ -23,9 +23,11 @@ public class ClientChat extends javax.swing.JFrame {
 
     private static final String SERVER_ADDRESS = "localhost" ;
     private static final int SERVER_PORT = 4321;
+
     private PrintWriter pout;
-    private String username;
-     
+    private final String username;
+    private static Socket clientSocket;
+
  
     public ClientChat(String username) throws IOException {
         this.username = username;
@@ -41,18 +43,22 @@ public class ClientChat extends javax.swing.JFrame {
     
     
     private void connectToServer() throws IOException{
-        Socket clientSocket = new Socket(SERVER_ADDRESS, SERVER_PORT);
-        
-        pout = new PrintWriter(clientSocket.getOutputStream(), true);
+        clientSocket = new Socket(SERVER_ADDRESS, SERVER_PORT);
+        System.out.println("se establece conexion con el servidor: "+clientSocket.toString());
+
         // se envia las variables SERVER_ADDRESS y SERVER_PORT al thread para la reconexion;
-        var threadConnection = new ClientConnectThread(clientSocket, chatArea, labelStatus, SERVER_ADDRESS, SERVER_PORT,pout);
+        var threadConnection = new ClientConnectThread(clientSocket, chatArea, labelStatus, SERVER_ADDRESS, SERVER_PORT);
         threadConnection.start();
+
     }
    
     
  
 
-    private void sendMessage()  {
+    private void sendMessage() throws IOException {
+
+        pout = new PrintWriter(this.clientSocket.getOutputStream(),true);
+        System.out.println("INFO Socket ENVIO: "+this.clientSocket.toString());
         String message = messageField.getText();
         if (!message.isEmpty()) {
             
@@ -69,7 +75,7 @@ public class ClientChat extends javax.swing.JFrame {
                 }
 
             } else {
-                System.out.println("No se ha perdido la conexión al servidor.");
+                System.out.println("Se ha perdido la conexión al servidor.");
             }
             messageField.setText("");
         }
