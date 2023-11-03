@@ -25,7 +25,7 @@ public class DataManager {
     }
     
     public static String getDataPath(){
-        dataPath = getProjectPath() + "/src/main/java/com/ups/cifradoAES/";
+        dataPath = getProjectPath() + "/src/main/java/com/ups/";
         return  dataPath;
     }
     

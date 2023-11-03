@@ -1,29 +1,37 @@
 package com.ups.server.controller;
 
 import com.ups.cifradoAES.CifradoAES;
+import com.ups.utils.DataManager;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import javax.swing.*;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Base64;
 
-public class ChatClientHandler implements Runnable{
+public class ChatClientHandler implements Runnable {
 
-    public static ArrayList<ChatClientHandler> clientHandlers = new ArrayList<>();
+
+    public static ArrayList<ChatClientHandler> clientHandlers  = new ArrayList<>();
+
     public Socket clientSocket;
-    //private ServerController server;
+
     private PrintWriter pout;
+    private JTextArea chatArea;
 
-    public ChatClientHandler(Socket clientSocket) throws IOException {
+    public ChatClientHandler(Socket clientSocket,JTextArea chatArea) throws IOException {
 
 
+
+        this.chatArea = chatArea;
         try {
             this.clientSocket = clientSocket;
             this.pout = new PrintWriter(clientSocket.getOutputStream(), true);
+
             clientHandlers.add(this);
+
+
+
         } catch (IOException e) {
             System.out.println("ERROR conexion cliente: "+e.getMessage());
             this.clientSocket.close();
@@ -31,9 +39,7 @@ public class ChatClientHandler implements Runnable{
 
     }
 
-    public  void  sendMessage(String message){
-        System.out.println(message);
-    }
+
 
     @Override
     public void run() {
@@ -44,10 +50,15 @@ public class ChatClientHandler implements Runnable{
             while ((mensajeCifradoRecibido = in.readLine())!= null){
                 // recibe el mensaje cifrado
                 System.out.println("Mensage recibido: "+mensajeCifradoRecibido);
+
                 // decifrar el mensaje
                 ///String mensajeDecifrado = CifradoAES.decrypt(Base64.getDecoder().decode(mensajeCifradoRecibido), CifradoAES.getSecretKey());
+
+
                 // envio por broadcast el mensaje cifrado
+
                 broadcastMessage(mensajeCifradoRecibido);
+                this.chatArea.append(mensajeCifradoRecibido+"\n");
             }
         }catch (IOException e){
             System.out.println("Error: "+e.getMessage());

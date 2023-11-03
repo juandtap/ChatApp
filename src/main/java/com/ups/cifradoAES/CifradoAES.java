@@ -87,7 +87,7 @@ public class CifradoAES {
     public  static SecretKey getSecretKey() throws FileNotFoundException, IOException{
                 // Lee los bytes de la clave desde el archivo
         byte[] keyBytes;
-        try (FileInputStream fis = new FileInputStream(DataManager.getDataPath()+"clave_aes.key")) {
+        try (FileInputStream fis = new FileInputStream(DataManager.getDataPath()+"cifradoAES/clave_aes.key")) {
             keyBytes = fis.readAllBytes();
         }
 

@@ -1,6 +1,10 @@
 package com.ups.server.controller;
 
+import com.ups.utils.DataManager;
+
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -17,11 +21,11 @@ public class ServerController extends Thread{
     private Socket clientsSocket = null;
 
     private JTextArea chatArea;
-    //private JList userList;
+
 
     public ServerController(JTextArea chatArea) {
         this.chatArea = chatArea;
-        //this.userList = userList;
+
     }
 
     @Override
@@ -31,9 +35,15 @@ public class ServerController extends Thread{
     
     
     public void startServer(){
+
+
+
+
         try {
             serverSocket = new ServerSocket(PORT);
             System.out.println("Servidor iniciado en el puerto :"+PORT);
+
+
             while(true){
                 System.out.println("Esperando clientes");
                 this.chatArea.append("Esperando Clientes...\n");
@@ -41,8 +51,10 @@ public class ServerController extends Thread{
                 System.out.println("Nuevo cliente conectado ");
                 this.chatArea.append("Nuevo Cliente conectado\n");
                //PrintWriter pout = new PrintWriter(clientsSocket.getOutputStream(), true);
+                ChatClientHandler chatClientHandler = new ChatClientHandler(clientsSocket, chatArea);
 
-                new Thread(new ChatClientHandler(clientsSocket)).start();
+
+                new Thread(chatClientHandler).start();
 
             }
         } catch (IOException e){
