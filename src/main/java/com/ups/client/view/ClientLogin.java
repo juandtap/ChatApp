@@ -146,18 +146,16 @@ public class ClientLogin extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
        
-        String username = this.txtUsername.getText();
-        
-        try {
-            ClientChat clientChat = new ClientChat(username);
-            clientChat.setVisible(true);
-            this.dispose();
-        } catch (IOException ex) {
-            System.out.println("Error al iniciar sesion");
-            JOptionPane.showMessageDialog(this, "Error al iniciar sesión: Servidor no encontrado.\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+String username = this.txtUsername.getText();
 
-        }
-        
+try {
+    ClientChat clientChat = new ClientChat(username);
+    clientChat.setVisible(true);
+    this.dispose();
+} catch (IOException ex) {
+    JOptionPane.showMessageDialog(this, "Error al iniciar sesión: Servidor no encontrado.\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+}
+
         
     }//GEN-LAST:event_btnLoginActionPerformed
 

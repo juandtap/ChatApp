@@ -169,6 +169,7 @@ public class ClientChat extends javax.swing.JFrame {
 
         chatArea.setEditable(false);
         chatArea.setColumns(20);
+        chatArea.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         chatArea.setRows(5);
         jScrollPane1.setViewportView(chatArea);
 
@@ -176,11 +177,7 @@ public class ClientChat extends javax.swing.JFrame {
         sendButton.setText("Enviar");
         sendButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                try {
-                    sendButtonActionPerformed(evt);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
+                sendButtonActionPerformed(evt);
             }
         });
 
@@ -250,7 +247,13 @@ public class ClientChat extends javax.swing.JFrame {
 
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) throws Exception {//GEN-FIRST:event_sendButtonActionPerformed
         // TODO add your handling code here:
+            // Verifica si el campo de mensaje está en blanco
+    String message = messageField.getText().trim(); // Quita espacios en blanco al inicio y al final
+    if (message.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "El campo del mensaje está en blanco.", "Error", JOptionPane.ERROR_MESSAGE);
+    } else {
         this.sendMessage();
+    }
     }//GEN-LAST:event_sendButtonActionPerformed
 
     private void messageFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_messageFieldActionPerformed
@@ -260,18 +263,18 @@ public class ClientChat extends javax.swing.JFrame {
     private void messageFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_messageFieldKeyPressed
         // TODO add your handling code here:
                 
- if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-        if (messageField.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Mensaje en Blanco", "Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            try {
-                sendButtonActionPerformed(null); // Llama al método btnLoginActionPerformed
-            } catch (Exception ex) {
-                Logger.getLogger(ClientChat.class.getName()).log(Level.SEVERE, null, ex);
-            }
+if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+    if (messageField.getText().equals("")) {
+        JOptionPane.showMessageDialog(this, "Mensaje en Blanco", "Error", JOptionPane.ERROR_MESSAGE);
+    } else {
+        try {
+            sendButtonActionPerformed(null); // Llama al método btnLoginActionPerformed
+        } catch (Exception ex) {
+            Logger.getLogger(ClientChat.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-        
+}
+
         
         
     }//GEN-LAST:event_messageFieldKeyPressed
