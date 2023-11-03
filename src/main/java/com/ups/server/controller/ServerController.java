@@ -12,7 +12,6 @@ import javax.swing.JTextArea;
 public class ServerController extends Thread{
     
     private final int PORT = 4321;
-    
     private ServerSocket serverSocket = null;
     private Socket clientsSocket = null;
 
@@ -32,13 +31,9 @@ public class ServerController extends Thread{
     
     public void startServer(){
 
-
-
-
         try {
             serverSocket = new ServerSocket(PORT);
             System.out.println("Servidor iniciado en el puerto :"+PORT);
-
 
             while(true){
                 System.out.println("Esperando clientes");
@@ -46,9 +41,7 @@ public class ServerController extends Thread{
                 clientsSocket = serverSocket.accept();
                 System.out.println("Nuevo cliente conectado ");
                 this.chatArea.append("Nuevo Cliente conectado\n");
-               //PrintWriter pout = new PrintWriter(clientsSocket.getOutputStream(), true);
                 ChatClientHandler chatClientHandler = new ChatClientHandler(clientsSocket, chatArea);
-
 
                 new Thread(chatClientHandler).start();
 

@@ -21,16 +21,12 @@ public class ChatClientHandler implements Runnable {
 
     public ChatClientHandler(Socket clientSocket,JTextArea chatArea) throws IOException {
 
-
-
         this.chatArea = chatArea;
         try {
             this.clientSocket = clientSocket;
             this.pout = new PrintWriter(clientSocket.getOutputStream(), true);
 
             clientHandlers.add(this);
-
-
 
         } catch (IOException e) {
             System.out.println("ERROR conexion cliente: "+e.getMessage());
@@ -40,23 +36,15 @@ public class ChatClientHandler implements Runnable {
     }
 
 
-
     @Override
     public void run() {
         try {
-            //pout = new PrintWriter(clientSocket.getOutputStream(),true);
+
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             String mensajeCifradoRecibido;
             while ((mensajeCifradoRecibido = in.readLine())!= null){
                 // recibe el mensaje cifrado
                 System.out.println("Mensage recibido: "+mensajeCifradoRecibido);
-
-                // decifrar el mensaje
-                ///String mensajeDecifrado = CifradoAES.decrypt(Base64.getDecoder().decode(mensajeCifradoRecibido), CifradoAES.getSecretKey());
-
-
-                // envio por broadcast el mensaje cifrado
-
                 broadcastMessage(mensajeCifradoRecibido);
                 this.chatArea.append(mensajeCifradoRecibido+"\n");
             }
