@@ -1,11 +1,7 @@
 package com.ups.server.controller;
 
-import com.ups.utils.DataManager;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -62,14 +58,6 @@ public class ServerController extends Thread{
         }
     }
 
-//    public void broadcastMessage(String message) {
-//        this.chatArea.append(message+"\n");
-//        for (PrintWriter writer : clientWriters) {
-//            writer.println(message);
-//
-//
-//        }
-//    }
 
 
 }
