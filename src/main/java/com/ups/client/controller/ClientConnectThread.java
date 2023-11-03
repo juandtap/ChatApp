@@ -5,6 +5,7 @@
 package com.ups.client.controller;
 
 import com.ups.cifradoAES.CifradoAES;
+import com.ups.client.view.ClientChat;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Base64;
+import java.util.concurrent.BlockingQueue;
 import javax.swing.*;
 
 /**
@@ -25,27 +27,23 @@ public class ClientConnectThread extends Thread{
     // hilo para la ejecucion del proceseo de escucha al servidor
     
     private JTextArea chatArea;
-    private JLabel labelConnStatus;
+
    
     private Socket clientSocket;
    
     private BufferedReader in;
 
-    private final int NUMMAXRECONNECT = 5;
-    private int numIntento = 0;
-
-    private  String serverAddress;
-    private int serverPort;
 
 
-    private boolean isConnectedFlag = true;
+    // se tiene como argumento para notificar el fin del thread con el metodo reconnectToServer
+    private ClientChat clientChat;
 
-    public ClientConnectThread(Socket socket, JTextArea chatArea, JLabel labelConnStatus, String serverAddress, int serverPort) {
+    public ClientConnectThread(Socket socket, JTextArea chatArea, ClientChat clientChat) {
         this.clientSocket = socket;
         this.chatArea = chatArea;
-        this.labelConnStatus = labelConnStatus;
-        this.serverAddress = serverAddress;
-        this.serverPort = serverPort;
+
+        this.clientChat = clientChat;
+
 
     }
     
@@ -55,32 +53,8 @@ public class ClientConnectThread extends Thread{
     public void run() {
 
 
+        this.connectToServer();
 
-        for (int i = 0; i < NUMMAXRECONNECT; i++) {
-            System.out.println("Conexion establecida numero: "+(i+1));
-            this.connectToServer();
-            System.out.println("estado del socket: "+this.clientSocket.isConnected());
-            // espera 5 segundos antes de reintentar conexion
-            System.out.println("Espera 5 segundos antes de reintentar nuevamente");
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        System.out.println("Numero maximo de intentos de reconexion alcanzado");
-        this.chatArea.append("""
-                Numero maximo de intentos de reconexion alcanzado
-                Conexión terminada!
-                """);
-        System.out.println("Conexion terminada\n"+"cerrando socket...");
-        try {
-            this.clientSocket.close();
-            System.out.println("SOCKET CERRADO");
-
-        } catch (IOException e) {
-            System.out.println("ERROR CERRANDO SOCKET: "+e.getMessage());
-        }
 
     }
     
@@ -88,21 +62,8 @@ public class ClientConnectThread extends Thread{
      public void connectToServer() {
 
         try {
-            if (!isConnectedFlag){
-                // se vuelve a instanciar el socket
-                this.clientSocket = new Socket(serverAddress, serverPort);
-                // se vuelve a instaciar el PrintWriter, para que puede volver a enviar los mensajes
-
-                isConnectedFlag = true;
-                System.out.println("Conexion restablecida!");
-
-                this.chatArea.append("Conexion restablecida!\n");
-                this.labelConnStatus.setText("Conectado");
-                System.out.println("INFO Socket Restablecido: "+this.clientSocket.toString());
-            }
 
             in = new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
-
 
             while (true) {
 
@@ -121,15 +82,12 @@ public class ClientConnectThread extends Thread{
             }
 
         } catch (IOException e) {
-            isConnectedFlag = false;
 
-            System.out.println("Error en conexion al servidor: "+e.getMessage());
-            System.out.println("Conexion perdida");
-            this.labelConnStatus.setText("Desconectado");
-            this.chatArea.append("Conexión perdida...\n");
+            System.out.println("THREAD: conexion perdida");
 
-            System.out.println("intento numero "+(numIntento++));
-            this.chatArea.append("Reintentando Conexión, intento: "+(numIntento)+"\n");
+            Thread.currentThread().interrupt();
+            System.out.println("THREAD: Envia notificacion para reconectar");
+            clientChat.reconnectToServer();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

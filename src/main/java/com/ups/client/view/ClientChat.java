@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Base64;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -24,11 +26,17 @@ public class ClientChat extends javax.swing.JFrame {
     private static final String SERVER_ADDRESS = "localhost" ;
     private static final int SERVER_PORT = 4321;
 
+
+
+
     private PrintWriter pout;
     private final String username;
     private static Socket clientSocket;
 
- 
+    private final int NUM_MAX_RECONNECTIONS = 5;
+
+
+
     public ClientChat(String username) throws IOException {
         this.username = username;
         this.setResizable(false);
@@ -43,22 +51,74 @@ public class ClientChat extends javax.swing.JFrame {
     
     
     private void connectToServer() throws IOException{
+
         clientSocket = new Socket(SERVER_ADDRESS, SERVER_PORT);
         System.out.println("se establece conexion con el servidor: "+clientSocket.toString());
-
-        // se envia las variables SERVER_ADDRESS y SERVER_PORT al thread para la reconexion;
-        var threadConnection = new ClientConnectThread(clientSocket, chatArea, labelStatus, SERVER_ADDRESS, SERVER_PORT);
+        var threadConnection = new ClientConnectThread(clientSocket, chatArea, this);
         threadConnection.start();
-
+        System.out.println("Iniciado nuevo hilo de escucha: "+threadConnection.getName());
     }
    
     
- 
+    public void reconnectToServer() {
+
+        int numIntento = 0;
+
+        boolean socketFlag = false;
+
+            for (int i = 0; i < NUM_MAX_RECONNECTIONS; i++) {
+
+
+                try {
+
+                    this.connectToServer();
+                    socketFlag = true;
+                    System.out.println("Conexion restablecida!");
+                    this.chatArea.append("Conexion Restablecida! \n");
+                    this.labelStatus.setText("Conectado");
+
+                    break;
+
+                } catch (IOException  e) {
+                    System.out.println("Error en conexion al servidor: "+e.getMessage());
+                    System.out.println("Conexion perdida");
+                    this.labelStatus.setText("Desconectado");
+                    this.chatArea.append("Conexión perdida...\n");
+
+                    System.out.println("intento numero "+(numIntento++));
+                    this.chatArea.append("Reintentando Conexión, intento: "+(numIntento)+"\n");
+
+
+                }
+                // espera 5 segundos antes de reintentar la conexion
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            if (!socketFlag){
+                System.out.println("Numero maximo de intentos de reconexion alcanzado");
+                this.chatArea.append("""
+                Numero maximo de intentos de reconexion alcanzado
+                Conexión terminada!
+                """);
+                System.out.println("Conexion terminada\n"+"cerrando socket...");
+                try {
+                    clientSocket.close();
+                    System.out.println("SOCKET CERRADO");
+
+                } catch (IOException e) {
+                    System.out.println("ERROR CERRANDO SOCKET: "+e.getMessage());
+                }
+            }
+    }
 
     private void sendMessage() throws IOException {
 
-        pout = new PrintWriter(this.clientSocket.getOutputStream(),true);
-        System.out.println("INFO Socket ENVIO: "+this.clientSocket.toString());
+        pout = new PrintWriter(clientSocket.getOutputStream(),true);
+        System.out.println("INFO Socket ENVIO: "+clientSocket.toString());
         String message = messageField.getText();
         if (!message.isEmpty()) {
             
