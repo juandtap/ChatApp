@@ -146,16 +146,18 @@ public class ClientLogin extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
        
-String username = this.txtUsername.getText();
-
-try {
-    ClientChat clientChat = new ClientChat(username);
-    clientChat.setVisible(true);
-    this.dispose();
-} catch (IOException ex) {
-    JOptionPane.showMessageDialog(this, "Error al iniciar sesión: Servidor no encontrado.\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-}
-
+   String username = this.txtUsername.getText().trim(); // Quita espacios en blanco al inicio y al final
+    if (username.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "El campo del nombre de usuario está en blanco.", "Error", JOptionPane.ERROR_MESSAGE);
+    } else {
+        try {
+            ClientChat clientChat = new ClientChat(username);
+            clientChat.setVisible(true);
+            this.dispose();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Error al iniciar sesión: Servidor no encontrado.\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
         
     }//GEN-LAST:event_btnLoginActionPerformed
 
