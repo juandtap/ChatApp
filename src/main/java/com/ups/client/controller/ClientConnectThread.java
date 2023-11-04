@@ -22,28 +22,18 @@ import javax.swing.*;
  */
 public class ClientConnectThread extends Thread{
 
-    
-    
     // hilo para la ejecucion del proceseo de escucha al servidor
     
     private JTextArea chatArea;
-
-   
     private Socket clientSocket;
-   
     private BufferedReader in;
-
-
-
-    // se tiene como argumento para notificar el fin del thread con el metodo reconnectToServer
+   // se tiene como argumento para notificar el fin del thread con el metodo reconnectToServer
     private ClientChat clientChat;
 
     public ClientConnectThread(Socket socket, JTextArea chatArea, ClientChat clientChat) {
         this.clientSocket = socket;
         this.chatArea = chatArea;
-
         this.clientChat = clientChat;
-
 
     }
     
@@ -51,11 +41,7 @@ public class ClientConnectThread extends Thread{
     
     @Override
     public void run() {
-
-
         this.connectToServer();
-
-
     }
     
 

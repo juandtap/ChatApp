@@ -10,8 +10,6 @@ public class DataManager {
     
     /*
      Esta Clase se usara para obtener la ruta absoluta del proyecto
-     Esta ruta se usa para guardar los archivos que contendran los objetos
-     de Empresa Deptartamento y Empleado en el Paquete .Files
     */
     
     private static String absolutePath;
