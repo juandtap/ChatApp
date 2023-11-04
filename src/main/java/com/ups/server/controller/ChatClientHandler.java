@@ -11,11 +11,8 @@ import java.util.Base64;
 
 public class ChatClientHandler implements Runnable {
 
-
     public static ArrayList<ChatClientHandler> clientHandlers  = new ArrayList<>();
-
     public Socket clientSocket;
-
     private PrintWriter pout;
     private JTextArea chatArea;
 
