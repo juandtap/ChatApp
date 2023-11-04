@@ -26,16 +26,11 @@ public class ClientChat extends javax.swing.JFrame {
     private static final String SERVER_ADDRESS = "localhost" ;
     private static final int SERVER_PORT = 4321;
 
-
-
-
     private PrintWriter pout;
     private final String username;
     private static Socket clientSocket;
 
     private final int NUM_MAX_RECONNECTIONS = 5;
-
-
 
     public ClientChat(String username) throws IOException {
         this.username = username;
@@ -47,9 +42,6 @@ public class ClientChat extends javax.swing.JFrame {
         this.connectToServer();
     }
 
-    
-    
-    
     private void connectToServer() throws IOException{
 
         clientSocket = new Socket(SERVER_ADDRESS, SERVER_PORT);
