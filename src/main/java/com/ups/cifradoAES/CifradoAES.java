@@ -22,8 +22,6 @@ public class CifradoAES {
     public static void main(String[] args) {
         try {
             
-            
-            
             //Se genera un calve AES y la gurda en un archivo
             
             // Genera una clave AES
@@ -37,31 +35,10 @@ public class CifradoAES {
             }
             */
 
-            
-            
-           /* // Mensaje que deseas cifrar
-            String mensajeOriginal = "Paul Andres Astudillo Calle.";
-
-            // Cifra el mensaje
-            byte[] mensajeCifrado = encrypt(mensajeOriginal, secretKey);
-
-            // Descifra el mensaje
-            String mensajeDescifrado = decrypt(mensajeCifrado, secretKey);
-
-            System.out.println("Mensaje original: " + mensajeOriginal);
-            System.out.println("Mensaje cifrado: " + Base64.getEncoder().encodeToString(mensajeCifrado));
-            System.out.println("Mensaje descifrado: " + mensajeDescifrado);*/
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-    // Genera una clave AES Ya no se usa
-//    public static SecretKey generateAESKey() throws Exception {
-//        KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-//        keyGenerator.init(128); //Usamos 128 bits para cifrar 
-//        return keyGenerator.generateKey();
-//    }
 
     // Cifra un mensaje usando una clave AES
     public static byte[] encrypt(String mensaje, SecretKey secretKey) throws Exception {
